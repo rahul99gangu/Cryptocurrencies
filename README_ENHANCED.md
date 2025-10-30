@@ -433,9 +433,9 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 ## 📞 Contact & Support
 
 **For AI Product Manager Portfolio Review**
-- 📧 Email: [your.email@example.com]
-- 💼 LinkedIn: [Your LinkedIn Profile]
-- 🐙 GitHub: [Your GitHub Profile]
+- 📧 Email: rahul99gangu@gmail.com
+- 💼 LinkedIn: https://www.linkedin.com/in/rahulgangu/
+- 🐙 GitHub: https://github.com/rahul99gangu
 - 📝 Portfolio: [Your Portfolio Website]
 
 **For Project Issues**

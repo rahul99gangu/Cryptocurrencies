@@ -21,6 +21,9 @@ notebook>=6.4.0
 # Data Processing Utilities
 path.py>=16.0.0
 
+# Web UI (Streamlit)
+streamlit>=1.20.0
+
 # Optional: For future Gen AI integration
 # Uncomment when ready to integrate real LLMs
 # langchain>=0.1.0
@@ -28,8 +31,7 @@ path.py>=16.0.0
 # openai>=1.0.0
 # chromadb>=0.4.0
 
-# Optional: For web deployment
-# streamlit>=1.20.0
+# Optional: For API deployment
 # fastapi>=0.95.0
 # uvicorn>=0.20.0
 

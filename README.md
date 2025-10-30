@@ -61,12 +61,34 @@ cd cryptocurrencies
 
 # Install dependencies
 pip install -r requirements.txt
+```
 
+### Option 1: Interactive Web UI 🎨 (RECOMMENDED)
+```bash
+# Launch the Streamlit web app
+streamlit run app.py
+
+# Or use the launch script
+./launch_ui.sh        # macOS/Linux
+launch_ui.bat         # Windows
+```
+
+**Your browser will open to `http://localhost:8501` with:**
+- 📊 Interactive dashboards
+- 🎯 3D visualizations
+- 🤖 AI-powered cluster insights
+- 📈 Market analysis
+- 📝 One-click report generation
+
+**📖 [See Full UI Guide](UI_DEPLOYMENT_GUIDE.md)**
+
+### Option 2: Jupyter Notebook
+```bash
 # Launch Jupyter notebook
 jupyter notebook crypto_clustering.ipynb
 ```
 
-### Generate AI Insights
+### Option 3: Python Script (AI Insights)
 ```python
 from crypto_ai_insights import CryptoAIAnalyzer
 import pandas as pd
@@ -152,6 +174,7 @@ This project demonstrates the complete AI Product Management lifecycle:
 - **Machine Learning**: Scikit-learn (K-Means, PCA, StandardScaler)
 - **Data Science**: Pandas, NumPy
 - **Visualization**: Plotly, HvPlot
+- **Web UI**: Streamlit (interactive dashboards)
 - **Gen AI**: Custom insights engine (extensible to Claude/GPT)
 - **Development**: Python 3.8+, Jupyter
 

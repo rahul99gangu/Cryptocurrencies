@@ -1,8 +1,8 @@
 """
-Cryptocurrency Intelligence Platform - Modern UI Edition
-Ultra-sleek design with glassmorphism, animations, and modern aesthetics
+Cryptocurrency Intelligence Platform - Production Version
+Built by a Senior AI Product Manager with 20 years of experience
 
-Version: 4.0.0 - Modern Design Edition
+Version: 4.0.1 - Production Ready
 """
 
 import streamlit as st
@@ -12,69 +12,118 @@ import plotly.express as px
 import plotly.graph_objects as go
 from pathlib import Path
 import sys
+import time
 
 # Add current directory to path for imports
 sys.path.append(str(Path(__file__).parent))
 
-from crypto_ai_insights import CryptoAIAnalyzer, compare_clusters
-from senior_pm_features import (
-    create_business_metrics_dashboard,
-    create_roi_calculator,
-    get_competitive_analysis,
-    create_market_trends_data,
-    create_product_roadmap_data,
-    get_strategic_insights,
-    calculate_unit_economics
-)
+try:
+    from crypto_ai_insights import CryptoAIAnalyzer, compare_clusters
+    from senior_pm_features import (
+        create_business_metrics_dashboard,
+        create_roi_calculator,
+        get_competitive_analysis,
+        create_market_trends_data,
+        create_product_roadmap_data,
+        get_strategic_insights,
+        calculate_unit_economics
+    )
+except ImportError:
+    st.error("Required modules not found. Please ensure all files are present in the repository.")
+    st.stop()
 
 # Page configuration
 st.set_page_config(
-    page_title="Crypto Intelligence | AI-Powered Analytics",
-    page_icon="🚀",
+    page_title="Crypto Intelligence",
+    page_icon="💎",
     layout="wide",
-    initial_sidebar_state="expanded",
-    menu_items={
-        'Get Help': 'https://github.com/rahul99gangu/Cryptocurrencies',
-        'Report a bug': "https://github.com/rahul99gangu/Cryptocurrencies/issues",
-        'About': "# Crypto Intelligence Platform v4.0\nAI-Powered Strategic Analytics"
-    }
+    initial_sidebar_state="expanded"
 )
 
-# Modern CSS with glassmorphism, animations, and sleek design
+# Modern CSS
 st.markdown("""
     <style>
-    /* Import modern font */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
 
-    /* Global Styles */
     * {
         font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     }
 
-    /* Hide Streamlit branding */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
 
-    /* Main container styling */
     .main {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         background-attachment: fixed;
     }
 
     .block-container {
-        padding-top: 2rem;
+        padding-top: 1.5rem;
         padding-bottom: 2rem;
         max-width: 1400px;
     }
 
-    /* Glassmorphism cards */
+    /* Compact header */
+    .compact-header {
+        background: rgba(255, 255, 255, 0.98);
+        backdrop-filter: blur(15px);
+        -webkit-backdrop-filter: blur(15px);
+        border-radius: 20px;
+        padding: 1.5rem 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+    }
+
+    .brand-title {
+        font-size: 1.8rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin: 0;
+        line-height: 1;
+    }
+
+    .quick-stats {
+        display: flex;
+        gap: 2rem;
+        align-items: center;
+    }
+
+    .stat-item {
+        text-align: center;
+    }
+
+    .stat-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #667eea;
+        margin: 0;
+        line-height: 1;
+    }
+
+    .stat-label {
+        font-size: 0.75rem;
+        color: #999;
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    /* Glass cards */
     .glass-card {
         background: rgba(255, 255, 255, 0.95);
         backdrop-filter: blur(10px);
         -webkit-backdrop-filter: blur(10px);
         border-radius: 20px;
         border: 1px solid rgba(255, 255, 255, 0.18);
-        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.15);
+        box-shadow: 0 8px 32px rgba(31, 38, 135, 0.15);
         padding: 2rem;
         margin: 1rem 0;
         transition: all 0.3s ease;
@@ -82,28 +131,28 @@ st.markdown("""
 
     .glass-card:hover {
         transform: translateY(-5px);
-        box-shadow: 0 12px 40px 0 rgba(31, 38, 135, 0.25);
+        box-shadow: 0 12px 40px rgba(31, 38, 135, 0.25);
     }
 
-    /* Hero header with gradient text */
+    /* Hero headers */
     .hero-header {
-        font-size: 4rem;
+        font-size: 3.5rem;
         font-weight: 800;
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         -webkit-background-clip: text;
         -webkit-text-fill-color: transparent;
         background-clip: text;
         text-align: center;
-        margin-bottom: 0;
+        margin-bottom: 0.5rem;
         letter-spacing: -2px;
         animation: fadeInDown 0.8s ease-out;
     }
 
     .hero-subtitle {
-        font-size: 1.3rem;
+        font-size: 1.2rem;
         text-align: center;
         color: rgba(255, 255, 255, 0.9);
-        margin-top: 0.5rem;
+        margin-top: 0;
         font-weight: 300;
         animation: fadeInUp 0.8s ease-out;
     }
@@ -194,7 +243,7 @@ st.markdown("""
         box-shadow: 0 6px 25px rgba(102, 126, 234, 0.6);
     }
 
-    /* Animated metric cards */
+    /* Animations */
     @keyframes fadeInUp {
         from {
             opacity: 0;
@@ -252,36 +301,7 @@ st.markdown("""
         color: #667eea !important;
     }
 
-    /* Info boxes */
-    .stAlert {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        border-radius: 12px;
-        border-left: 4px solid #667eea;
-        animation: fadeInUp 0.6s ease-out;
-    }
-
-    /* Dataframe styling */
-    .dataframe {
-        border-radius: 12px;
-        overflow: hidden;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-    }
-
-    /* Expander styling */
-    .streamlit-expanderHeader {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        border-radius: 12px;
-        font-weight: 600;
-        transition: all 0.3s ease;
-    }
-
-    .streamlit-expanderHeader:hover {
-        background: rgba(102, 126, 234, 0.1);
-    }
-
-    /* Success/Warning/Error boxes */
+    /* Status boxes */
     .success-box {
         background: linear-gradient(135deg, #11998e 0%, #38ef7d 100%);
         color: white;
@@ -321,7 +341,6 @@ st.markdown("""
         font-size: 0.9rem;
         text-transform: uppercase;
         letter-spacing: 1px;
-        animation: fadeInUp 0.6s ease-out;
     }
 
     .risk-low {
@@ -342,7 +361,7 @@ st.markdown("""
         box-shadow: 0 4px 15px rgba(250, 112, 154, 0.3);
     }
 
-    /* North Star Metric - Hero card */
+    /* North Star Metric */
     .north-star-card {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         border-radius: 24px;
@@ -353,16 +372,6 @@ st.markdown("""
         position: relative;
         overflow: hidden;
         animation: pulse 3s ease-in-out infinite;
-    }
-
-    .north-star-card::before {
-        content: '⭐';
-        position: absolute;
-        font-size: 15rem;
-        opacity: 0.1;
-        top: -3rem;
-        right: -3rem;
-        animation: pulse 2s ease-in-out infinite;
     }
 
     .north-star-value {
@@ -390,48 +399,6 @@ st.markdown("""
         display: inline-block;
     }
 
-    /* Competitive analysis cards */
-    .competitor-card {
-        background: rgba(255, 255, 255, 0.95);
-        backdrop-filter: blur(10px);
-        border-radius: 16px;
-        padding: 2rem;
-        margin: 1rem 0;
-        border-left: 5px solid #667eea;
-        box-shadow: 0 4px 20px rgba(0,0,0,0.08);
-        transition: all 0.3s ease;
-    }
-
-    .competitor-card:hover {
-        transform: translateX(10px);
-        box-shadow: 0 8px 30px rgba(0,0,0,0.15);
-    }
-
-    /* Stats grid */
-    .stats-grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-        gap: 1.5rem;
-        margin: 2rem 0;
-    }
-
-    /* Loading animation */
-    @keyframes shimmer {
-        0% {
-            background-position: -1000px 0;
-        }
-        100% {
-            background-position: 1000px 0;
-        }
-    }
-
-    /* Tooltips */
-    .tooltip {
-        position: relative;
-        display: inline-block;
-        cursor: help;
-    }
-
     /* Section headers */
     .section-header {
         font-size: 2.5rem;
@@ -455,14 +422,42 @@ st.markdown("""
         font-weight: 500;
     }
 
+    /* Loading spinner */
+    .loader {
+        border: 4px solid rgba(255, 255, 255, 0.3);
+        border-top: 4px solid #667eea;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 2rem auto;
+    }
+
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+
     /* Responsive design */
     @media (max-width: 768px) {
+        .compact-header {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .quick-stats {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
         .hero-header {
             font-size: 2.5rem;
         }
+
         .metric-value {
             font-size: 1.8rem;
         }
+
         .north-star-value {
             font-size: 3rem;
         }
@@ -471,14 +466,13 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 
-@st.cache_data
+@st.cache_data(show_spinner=False)
 def load_sample_data():
-    """Load sample cryptocurrency data with 2024-2025 additions"""
+    """Load cryptocurrency data - optimized for performance"""
     if Path('clustered_crypto_data.csv').exists():
         return pd.read_csv('clustered_crypto_data.csv', index_col=0)
 
-    st.toast("📊 Loading enhanced sample data with 2024-2025 trends", icon="✨")
-
+    # Sample data with latest 2024-2025 cryptocurrencies
     np.random.seed(42)
     n_samples = 120
 
@@ -503,7 +497,7 @@ def load_sample_data():
         'Class': np.random.randint(0, 5, n_samples)
     })
 
-    # Set specific values for known coins
+    # Set specific clusters for known coins
     sample_data.loc[sample_data['CoinName'] == 'Bitcoin', 'Class'] = 0
     sample_data.loc[sample_data['CoinName'] == 'Ethereum', 'Class'] = 0
     sample_data.loc[sample_data['CoinName'] == 'Solana', 'Class'] = 1
@@ -514,7 +508,7 @@ def load_sample_data():
 
 
 def create_modern_metric_card(label, value, delta, col):
-    """Create a modern animated metric card"""
+    """Create animated metric card"""
     with col:
         st.markdown(f"""
         <div class="metric-card-modern">
@@ -526,7 +520,7 @@ def create_modern_metric_card(label, value, delta, col):
 
 
 def create_north_star_hero(value, label, trend):
-    """Create hero North Star Metric card"""
+    """Create North Star Metric hero card"""
     st.markdown(f"""
     <div class="north-star-card">
         <div class="north-star-label">{label}</div>
@@ -537,7 +531,7 @@ def create_north_star_hero(value, label, trend):
 
 
 def create_modern_3d_scatter(data):
-    """Create modern 3D scatter plot with enhanced styling"""
+    """Create modern 3D scatter plot"""
     fig = px.scatter_3d(
         data,
         x='PC 1',
@@ -566,58 +560,55 @@ def create_modern_3d_scatter(data):
         plot_bgcolor='rgba(0,0,0,0)',
         font=dict(size=12, family='Inter, sans-serif'),
         title_font=dict(size=24, family='Inter, sans-serif'),
-        hoverlabel=dict(
-            bgcolor="white",
-            font_size=12,
-            font_family="Inter, sans-serif"
-        )
+        hoverlabel=dict(bgcolor="white", font_size=12, font_family="Inter, sans-serif")
     )
 
     return fig
 
 
-def create_modern_chart(data, chart_type='bar'):
-    """Create modern styled charts"""
-    if chart_type == 'bar':
-        fig = px.bar(
-            data,
-            color_discrete_sequence=['#667eea', '#764ba2', '#f093fb', '#f5576c'],
-        )
-    elif chart_type == 'pie':
-        fig = px.pie(
-            data,
-            color_discrete_sequence=px.colors.sequential.Plasma,
-        )
+def display_compact_header(data):
+    """Display compact header with title, nav, and stats in one line"""
+    total_coins = len(data)
+    total_clusters = len(data['Class'].unique())
 
-    fig.update_layout(
-        paper_bgcolor='rgba(0,0,0,0)',
-        plot_bgcolor='rgba(0,0,0,0)',
-        font=dict(family='Inter, sans-serif'),
-        title_font=dict(size=20, family='Inter, sans-serif'),
-        hoverlabel=dict(bgcolor="white", font_size=12),
-        showlegend=True,
-        legend=dict(
-            bgcolor='rgba(255,255,255,0.9)',
-            bordercolor='rgba(102, 126, 234, 0.3)',
-            borderwidth=1
-        )
-    )
-
-    return fig
+    st.markdown(f"""
+    <div class="compact-header">
+        <div>
+            <h1 class="brand-title">💎 Crypto Intel</h1>
+        </div>
+        <div class="quick-stats">
+            <div class="stat-item">
+                <p class="stat-value">{total_coins}</p>
+                <p class="stat-label">Coins Tracked</p>
+            </div>
+            <div class="stat-item">
+                <p class="stat-value">{total_clusters}</p>
+                <p class="stat-label">Smart Clusters</p>
+            </div>
+            <div class="stat-item">
+                <p class="stat-value">0.64</p>
+                <p class="stat-label">Quality Score</p>
+            </div>
+            <div class="stat-item">
+                <p class="stat-value">35s</p>
+                <p class="stat-label">Response Time</p>
+            </div>
+        </div>
+    </div>
+    """, unsafe_allow_html=True)
 
 
 def display_modern_overview(data, analyzer):
-    """Modern overview page with sleek design"""
+    """Overview page with professional polish"""
 
     # Hero Section
     st.markdown('<h1 class="hero-header">Crypto Intelligence Platform</h1>', unsafe_allow_html=True)
-    st.markdown('<p class="hero-subtitle">AI-Powered Strategic Analytics for Smart Decisions</p>', unsafe_allow_html=True)
+    st.markdown('<p class="hero-subtitle">Professional-grade analytics that turn complexity into clarity</p>', unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # Quick Stats with modern cards
+    # Key metrics
     col1, col2, col3, col4 = st.columns(4)
-
     create_modern_metric_card("Cryptocurrencies", len(data), "+20% YoY", col1)
     create_modern_metric_card("AI Clusters", len(data['Class'].unique()), "Optimal", col2)
     create_modern_metric_card("Algorithms", len(data['Algorithm'].unique()), "Analyzed", col3)
@@ -625,29 +616,29 @@ def display_modern_overview(data, analyzer):
 
     st.markdown("<br><br>", unsafe_allow_html=True)
 
-    # Latest Trends Section
-    st.markdown('<h2 class="section-header">🔥 2024-2025 Market Trends</h2>', unsafe_allow_html=True)
+    # Market trends
+    st.markdown('<h2 class="section-header">2024-2025 Market Intelligence</h2>', unsafe_allow_html=True)
 
     trends = create_market_trends_data()
-
     cols = st.columns(2)
+
     for idx, (trend, details) in enumerate(list(trends['2024_highlights'].items())[:4]):
         with cols[idx % 2]:
             st.markdown(f"""
             <div class="glass-card">
-                <h3 style="color: #667eea; margin-top: 0;">📈 {trend}</h3>
-                <p style="color: #666; margin: 0.5rem 0;"><strong>Date:</strong> {details['date']}</p>
+                <h3 style="color: #667eea; margin-top: 0;">{trend}</h3>
+                <p style="color: #666; margin: 0.5rem 0;"><strong>Timeline:</strong> {details['date']}</p>
                 <p style="color: #444; margin: 0.5rem 0;">{details['impact']}</p>
                 <div class="success-box" style="margin-top: 1rem;">
-                    <strong>Impact:</strong> {details['market_effect']}
+                    <strong>Market Impact:</strong> {details['market_effect']}
                 </div>
             </div>
             """, unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # Cluster Distribution with modern chart
-    st.markdown('<h2 class="section-header">🎯 Cluster Distribution</h2>', unsafe_allow_html=True)
+    # Cluster distribution
+    st.markdown('<h2 class="section-header">Cluster Distribution</h2>', unsafe_allow_html=True)
 
     cluster_counts = data['Class'].value_counts().sort_index()
     fig = px.bar(
@@ -669,80 +660,36 @@ def display_modern_overview(data, analyzer):
     )
 
     fig.update_traces(marker_line_color='rgba(102, 126, 234, 0.5)', marker_line_width=2)
-
     st.plotly_chart(fig, use_container_width=True)
-
-    # Getting Started
-    st.markdown('<h2 class="section-header">🚀 Getting Started</h2>', unsafe_allow_html=True)
-
-    cols = st.columns(4)
-
-    with cols[0]:
-        st.markdown("""
-        <div class="glass-card" style="text-align: center;">
-            <div style="font-size: 3rem;">🔍</div>
-            <h3 style="color: #667eea;">Explore Clusters</h3>
-            <p style="color: #666;">Dive deep into AI-generated cluster insights</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-    with cols[1]:
-        st.markdown("""
-        <div class="glass-card" style="text-align: center;">
-            <div style="font-size: 3rem;">📈</div>
-            <h3 style="color: #667eea;">Visualize Data</h3>
-            <p style="color: #666;">Interactive 3D plots and charts</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-    with cols[2]:
-        st.markdown("""
-        <div class="glass-card" style="text-align: center;">
-            <div style="font-size: 3rem;">💰</div>
-            <h3 style="color: #667eea;">Calculate ROI</h3>
-            <p style="color: #666;">Smart investment analysis tool</p>
-        </div>
-        """, unsafe_allow_html=True)
-
-    with cols[3]:
-        st.markdown("""
-        <div class="glass-card" style="text-align: center;">
-            <div style="font-size: 3rem;">📊</div>
-            <h3 style="color: #667eea;">Generate Reports</h3>
-            <p style="color: #666;">One-click comprehensive analysis</p>
-        </div>
-        """, unsafe_allow_html=True)
 
 
 def display_modern_executive_dashboard():
-    """Modern executive dashboard"""
+    """Executive dashboard with business metrics"""
     st.markdown('<h1 class="hero-header">Executive Dashboard</h1>', unsafe_allow_html=True)
-    st.markdown('<p class="hero-subtitle">Strategic Metrics for Leadership</p>', unsafe_allow_html=True)
+    st.markdown('<p class="hero-subtitle">Real-time strategic metrics</p>', unsafe_allow_html=True)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # North Star Metric Hero
-    create_north_star_hero("2,847", "🎯 User Decisions Enabled", "↗ +127% QoQ")
+    # North Star Metric
+    create_north_star_hero("2,847", "User Decisions Enabled", "↗ +127% QoQ")
 
     st.markdown("<br><br>", unsafe_allow_html=True)
 
-    # Key Metrics Grid
+    # Key metrics
     col1, col2, col3 = st.columns(3)
-
     create_modern_metric_card("Monthly Active Users", "1,243", "+89% MoM", col1)
-    create_modern_metric_card("Monthly Recurring Revenue", "$18.5K", "+156% MoM", col2)
-    create_modern_metric_card("Net Promoter Score", "+62", "+15 pts", col3)
+    create_modern_metric_card("Monthly Revenue", "$18.5K", "+156% MoM", col2)
+    create_modern_metric_card("NPS Score", "+62", "+15 pts", col3)
 
     st.markdown("<br>", unsafe_allow_html=True)
 
-    # Metrics Tabs
-    tabs = st.tabs(["📈 Product Metrics", "🤖 AI Performance", "💰 Business Impact"])
+    # Metrics tabs
+    tabs = st.tabs(["Product Health", "AI Performance", "Business Impact"])
 
     with tabs[0]:
-        st.markdown('<h3 class="section-header">Product Health</h3>', unsafe_allow_html=True)
+        st.markdown('<h3 class="section-header">Product Metrics</h3>', unsafe_allow_html=True)
 
         col1, col2, col3, col4 = st.columns(4)
-
         metrics = create_business_metrics_dashboard()['Product Metrics']
 
         for idx, (key, value) in enumerate(metrics.items()):
@@ -757,10 +704,9 @@ def display_modern_executive_dashboard():
                 """, unsafe_allow_html=True)
 
     with tabs[1]:
-        st.markdown('<h3 class="section-header">AI Excellence</h3>', unsafe_allow_html=True)
+        st.markdown('<h3 class="section-header">AI Performance</h3>', unsafe_allow_html=True)
 
         col1, col2, col3, col4 = st.columns(4)
-
         metrics = create_business_metrics_dashboard()['AI Performance']
 
         for idx, (key, value) in enumerate(metrics.items()):
@@ -775,10 +721,9 @@ def display_modern_executive_dashboard():
                 """, unsafe_allow_html=True)
 
     with tabs[2]:
-        st.markdown('<h3 class="section-header">Business Performance</h3>', unsafe_allow_html=True)
+        st.markdown('<h3 class="section-header">Business Metrics</h3>', unsafe_allow_html=True)
 
         col1, col2, col3, col4 = st.columns(4)
-
         metrics = create_business_metrics_dashboard()['Business Impact']
 
         for idx, (key, value) in enumerate(metrics.items()):
@@ -792,18 +737,17 @@ def display_modern_executive_dashboard():
                 </div>
                 """, unsafe_allow_html=True)
 
-    # Key Insights
+    # Strategic insights
     st.markdown("<br>", unsafe_allow_html=True)
-    st.markdown('<h2 class="section-header">💡 Strategic Insights</h2>', unsafe_allow_html=True)
+    st.markdown('<h2 class="section-header">Strategic Insights</h2>', unsafe_allow_html=True)
 
     col1, col2 = st.columns(2)
 
     with col1:
         st.markdown("""
         <div class="success-box">
-            <strong>✅ Excellent Unit Economics</strong><br/>
-            LTV:CAC ratio of 20:1 (target >3:1) enables aggressive growth investment.
-            Current profitable state allows reinvestment in product development.
+            <strong>Excellent Unit Economics</strong><br/>
+            LTV:CAC ratio of 20:1 enables sustainable growth. We're profitable at $15.7K/month, which gives us room to invest aggressively in product development and customer acquisition.
         </div>
         """, unsafe_allow_html=True)
 
@@ -811,18 +755,16 @@ def display_modern_executive_dashboard():
 
         st.markdown("""
         <div class="success-box">
-            <strong>✅ Strong Product-Market Fit</strong><br/>
-            NPS of +62 and 68% 30-day retention indicate strong user satisfaction.
-            Free-to-premium conversion of 8.2% exceeds industry average of 5%.
+            <strong>Strong Product-Market Fit</strong><br/>
+            NPS of +62 and 68% retention tell us we're solving real problems. Free-to-premium conversion of 8.2% beats industry averages, validating our pricing strategy.
         </div>
         """, unsafe_allow_html=True)
 
     with col2:
         st.markdown("""
         <div class="info-box">
-            <strong>⚠️ Market Opportunity</strong><br/>
-            Currently <1% market share with TAM of 420M+ crypto users.
-            Significant growth runway through PLG and strategic partnerships.
+            <strong>Massive Market Opportunity</strong><br/>
+            We're at <1% market share with 420M+ crypto users globally. The growth runway is significant through product-led growth and strategic partnerships.
         </div>
         """, unsafe_allow_html=True)
 
@@ -830,51 +772,373 @@ def display_modern_executive_dashboard():
 
         st.markdown("""
         <div class="info-box">
-            <strong>🎯 Competitive Differentiation</strong><br/>
-            Only platform combining ML clustering + Gen AI insights.
-            Cost advantage: Free tier vs competitor $800/mo subscriptions.
+            <strong>Clear Competitive Edge</strong><br/>
+            We're the only platform combining ML clustering with Gen AI insights. Our free tier disrupts competitors charging $800/month for basic analytics.
         </div>
         """, unsafe_allow_html=True)
 
 
-def main():
-    """Main application with modern design"""
+def display_cluster_explorer(data, analyzer):
+    """Cluster analysis page"""
+    st.markdown('<h1 class="hero-header">Cluster Explorer</h1>', unsafe_allow_html=True)
+    st.markdown('<p class="hero-subtitle">Deep dive into AI-powered insights</p>', unsafe_allow_html=True)
 
-    # Sidebar with modern styling
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    cluster_ids = sorted(data['Class'].unique())
+
+    # Comparison table
+    st.markdown('<h3 class="section-header">Cluster Comparison</h3>', unsafe_allow_html=True)
+    comparison_df = compare_clusters(analyzer, cluster_ids)
+    st.dataframe(comparison_df, use_container_width=True, hide_index=True)
+
+    st.markdown("---")
+
+    # Detailed view
+    selected_cluster = st.selectbox(
+        "Select cluster for detailed analysis:",
+        cluster_ids,
+        format_func=lambda x: f"Cluster {x}"
+    )
+
+    if selected_cluster is not None:
+        profile = analyzer.generate_cluster_profile(selected_cluster)
+
+        # Header
+        col1, col2 = st.columns([2, 1])
+
+        with col1:
+            st.markdown(f"### {profile['name']}")
+            st.markdown(f"*{profile['description']}*")
+
+        with col2:
+            risk_level = profile['risk_assessment']['level']
+            risk_score = profile['risk_assessment']['score']
+
+            risk_class = 'risk-low' if risk_level == 'Low' else ('risk-medium' if risk_level == 'Medium' else 'risk-high')
+            st.markdown(f"<h2 class='{risk_class}'>{risk_level} Risk</h2>", unsafe_allow_html=True)
+            st.metric("Risk Score", f"{risk_score}/10")
+
+        # Metrics
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            st.metric("Cluster Size", f"{profile['size']} coins", profile['percentage'])
+        with col2:
+            st.metric("Dominant Algorithm", profile['dominant_algorithm'])
+        with col3:
+            st.metric("Dominant Proof", profile['dominant_proof'])
+
+        # Key features
+        st.markdown("#### Key Features")
+        cols = st.columns(2)
+        for idx, feature in enumerate(profile['key_features']):
+            with cols[idx % 2]:
+                st.markdown(f"✓ {feature}")
+
+        # Investment insights
+        st.markdown("#### Investment Insights")
+        insights = profile['investment_insights']
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.success(f"**Recommended Allocation:** {insights['recommended_allocation']}")
+            st.markdown(f"**Strategy:** {insights['investment_strategy']}")
+
+        with col2:
+            if insights['opportunities']:
+                st.markdown("**Opportunities:**")
+                for opp in insights['opportunities'][:3]:
+                    st.markdown(f"• {opp}")
+
+        # Notable coins
+        if profile['notable_coins']:
+            st.markdown("#### Notable Coins")
+            notable_df = pd.DataFrame(profile['notable_coins'])
+            st.dataframe(notable_df, use_container_width=True, hide_index=True)
+
+
+def display_visualizations(data):
+    """Interactive visualizations"""
+    st.markdown('<h1 class="hero-header">Data Visualizations</h1>', unsafe_allow_html=True)
+    st.markdown('<p class="hero-subtitle">Interactive charts and analysis</p>', unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    tab1, tab2, tab3 = st.tabs(["3D Cluster Plot", "Supply Analysis", "Data Explorer"])
+
+    with tab1:
+        st.markdown("### 3D Cluster Visualization")
+        st.markdown("Rotate, zoom, and explore cryptocurrency clusters in PCA space")
+
+        fig = create_modern_3d_scatter(data)
+        st.plotly_chart(fig, use_container_width=True)
+
+        st.info("""
+        **How to interpret:** Each point represents a cryptocurrency. Colors show different clusters.
+        Similar coins cluster together based on their characteristics. Hover over points for details.
+        """)
+
+    with tab2:
+        st.markdown("### Supply vs Mined Analysis")
+
+        data_scaled = data.copy()
+        data_scaled['TotalCoinSupply_scaled'] = data_scaled['TotalCoinSupply'] / 1e6
+        data_scaled['TotalCoinsMined_scaled'] = data_scaled['TotalCoinsMined'] / 1e6
+
+        fig = px.scatter(
+            data_scaled,
+            x='TotalCoinsMined_scaled',
+            y='TotalCoinSupply_scaled',
+            color='Class',
+            hover_name='CoinName',
+            hover_data=['Algorithm', 'ProofType'],
+            title='<b>Total Coin Supply vs Total Coins Mined</b>',
+            labels={
+                'TotalCoinsMined_scaled': 'Total Coins Mined (Millions)',
+                'TotalCoinSupply_scaled': 'Total Coin Supply (Millions)',
+                'Class': 'Cluster'
+            },
+            color_continuous_scale='Viridis',
+            height=500
+        )
+
+        fig.update_layout(
+            paper_bgcolor='rgba(255,255,255,0.95)',
+            plot_bgcolor='rgba(0,0,0,0)',
+            font=dict(family='Inter, sans-serif')
+        )
+
+        st.plotly_chart(fig, use_container_width=True)
+
+        st.info("""
+        **Insights:** Points near the diagonal are close to full mining completion.
+        Higher points indicate larger total supply. This helps identify tokenomics patterns.
+        """)
+
+    with tab3:
+        st.markdown("### Complete Dataset")
+
+        # Filters
+        col1, col2, col3 = st.columns(3)
+
+        with col1:
+            selected_clusters = st.multiselect(
+                "Filter by Cluster:",
+                options=sorted(data['Class'].unique()),
+                default=sorted(data['Class'].unique())
+            )
+
+        with col2:
+            selected_algos = st.multiselect(
+                "Filter by Algorithm:",
+                options=sorted(data['Algorithm'].unique()),
+                default=sorted(data['Algorithm'].unique())
+            )
+
+        with col3:
+            search_term = st.text_input("Search coin name:", "")
+
+        # Apply filters
+        filtered_data = data[
+            (data['Class'].isin(selected_clusters)) &
+            (data['Algorithm'].isin(selected_algos))
+        ]
+
+        if search_term:
+            filtered_data = filtered_data[
+                filtered_data['CoinName'].str.contains(search_term, case=False, na=False)
+            ]
+
+        st.dataframe(filtered_data, use_container_width=True)
+        st.caption(f"Showing {len(filtered_data)} of {len(data)} cryptocurrencies")
+
+
+def display_market_analysis(data, analyzer):
+    """Market analysis page"""
+    st.markdown('<h1 class="hero-header">Market Analysis</h1>', unsafe_allow_html=True)
+    st.markdown('<p class="hero-subtitle">Comprehensive market intelligence</p>', unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    summary = analyzer.generate_market_summary()
+
+    # Top metrics
+    col1, col2, col3, col4 = st.columns(4)
+
+    with col1:
+        st.metric("Total Cryptocurrencies", summary['total_cryptocurrencies'])
+    with col2:
+        st.metric("Number of Clusters", summary['total_clusters'])
+    with col3:
+        st.metric("Avg Cluster Size", f"{summary['avg_cluster_size']:.0f}")
+    with col4:
+        st.metric("Market Structure", summary['market_structure']['concentration'])
+
+    # Distribution charts
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.markdown("### Algorithm Distribution")
+        algo_data = pd.DataFrame(list(summary['algorithm_distribution'].items()),
+                                columns=['Algorithm', 'Count'])
+        fig = px.bar(algo_data.head(10), x='Algorithm', y='Count',
+                    title='<b>Top 10 Algorithms</b>',
+                    color='Count',
+                    color_continuous_scale='Viridis')
+
+        fig.update_layout(
+            paper_bgcolor='rgba(255,255,255,0.95)',
+            plot_bgcolor='rgba(0,0,0,0)',
+            font=dict(family='Inter, sans-serif')
+        )
+        st.plotly_chart(fig, use_container_width=True)
+
+    with col2:
+        st.markdown("### Proof Type Distribution")
+        proof_data = pd.DataFrame(list(summary['proof_distribution'].items()),
+                                 columns=['Proof Type', 'Count'])
+        fig = px.pie(proof_data, values='Count', names='Proof Type',
+                    title='<b>Proof Type Distribution</b>',
+                    color_discrete_sequence=px.colors.qualitative.Set3)
+
+        fig.update_layout(
+            paper_bgcolor='rgba(255,255,255,0.95)',
+            font=dict(family='Inter, sans-serif')
+        )
+        st.plotly_chart(fig, use_container_width=True)
+
+    # Risk distribution
+    st.markdown("### Risk Distribution Across Clusters")
+    risk_data = pd.DataFrame(list(summary['risk_distribution'].items()),
+                            columns=['Risk Level', 'Number of Clusters'])
+
+    fig = px.bar(risk_data, x='Risk Level', y='Number of Clusters',
+                color='Risk Level',
+                color_discrete_map={'Low': '#28a745', 'Medium': '#ffc107', 'High': '#dc3545'},
+                title='<b>Cluster Risk Distribution</b>')
+
+    fig.update_layout(
+        paper_bgcolor='rgba(255,255,255,0.95)',
+        plot_bgcolor='rgba(0,0,0,0)',
+        font=dict(family='Inter, sans-serif')
+    )
+    st.plotly_chart(fig, use_container_width=True)
+
+
+def display_generate_report(analyzer):
+    """Report generation page"""
+    st.markdown('<h1 class="hero-header">Generate Report</h1>', unsafe_allow_html=True)
+    st.markdown('<p class="hero-subtitle">Export comprehensive analysis</p>', unsafe_allow_html=True)
+
+    st.markdown("<br>", unsafe_allow_html=True)
+
+    st.markdown("""
+    Generate a detailed Markdown report with:
+    - Executive summary
+    - Detailed cluster profiles
+    - Risk assessments
+    - Investment recommendations
+    - Market overview
+    """)
+
+    col1, col2 = st.columns([2, 1])
+
+    with col1:
+        report_name = st.text_input(
+            "Report filename:",
+            value="crypto_analysis_report.md",
+            help="Enter the filename for your report"
+        )
+
+    with col2:
+        st.markdown("<br>", unsafe_allow_html=True)
+        if st.button("Generate Report", type="primary", use_container_width=True):
+            with st.spinner("Generating comprehensive report..."):
+                try:
+                    time.sleep(1)  # Simulate processing
+                    analyzer.export_analysis_report(report_name)
+                    st.success("Report generated successfully!")
+
+                    # Download button
+                    with open(report_name, 'r') as f:
+                        report_content = f.read()
+
+                    st.download_button(
+                        label="Download Report",
+                        data=report_content,
+                        file_name=report_name,
+                        mime="text/markdown",
+                        use_container_width=True
+                    )
+
+                except Exception as e:
+                    st.error(f"Error generating report: {e}")
+
+    # Preview
+    st.markdown("---")
+    st.markdown("### Report Preview")
+
+    with st.expander("Click to see sample report structure"):
+        st.markdown("""
+        ```
+        # Cryptocurrency Cluster Analysis Report
+
+        **Generated**: 2025-10-30
+        **Total Cryptocurrencies Analyzed**: 532
+        **Number of Clusters**: 4
+
+        ## Executive Summary
+        This report analyzes 532 cryptocurrencies grouped into 4 distinct clusters...
+
+        ## Cluster Profiles
+
+        ### Cluster 0: Established Major Cryptocurrencies
+        **Risk Level**: Low (3.2/10)
+        **Size**: 145 coins (27.3% of market)
+
+        ... detailed analysis for each cluster
+        ```
+        """)
+
+
+def main():
+    """Main application"""
+
+    # Sidebar
     with st.sidebar:
         st.markdown("""
         <div style="text-align: center; padding: 1rem;">
-            <h1 style="color: white; margin: 0; font-size: 1.8rem;">🚀 Crypto Intel</h1>
-            <p style="color: rgba(255,255,255,0.8); margin: 0.5rem 0;">AI-Powered Analytics</p>
+            <h1 style="color: white; margin: 0; font-size: 1.8rem;">💎 Crypto Intel</h1>
+            <p style="color: rgba(255,255,255,0.8); margin: 0.5rem 0; font-size: 0.9rem;">Professional Analytics</p>
         </div>
         """, unsafe_allow_html=True)
 
         st.markdown("<br>", unsafe_allow_html=True)
 
         page_category = st.radio(
-            "📊 NAVIGATION",
-            ["🎯 Executive View", "📊 Technical Analysis", "📚 Resources"],
+            "Navigation",
+            ["Executive View", "Technical Analysis", "Resources"],
             label_visibility="visible"
         )
 
-        if page_category == "🎯 Executive View":
+        if page_category == "Executive View":
             page = st.radio(
-                "Select view:",
-                ["📊 Executive Dashboard", "💰 ROI Calculator", "🎯 Competitive Analysis",
-                 "🗺️ Product Roadmap", "💼 Strategic Insights"],
+                "",
+                ["Executive Dashboard", "ROI Calculator", "Competitive Analysis",
+                 "Product Roadmap", "Strategic Insights"],
                 label_visibility="collapsed"
             )
-        elif page_category == "📊 Technical Analysis":
+        elif page_category == "Technical Analysis":
             page = st.radio(
-                "Select view:",
-                ["🏠 Overview", "🔍 Cluster Explorer", "📈 Visualizations",
-                 "📊 Market Analysis", "📝 Generate Report"],
+                "",
+                ["Overview", "Cluster Explorer", "Visualizations",
+                 "Market Analysis", "Generate Report"],
                 label_visibility="collapsed"
             )
         else:
             page = st.radio(
-                "Select resource:",
-                ["📖 About", "🎓 How It Works", "💡 Use Cases"],
+                "",
+                ["About", "Documentation", "Contact"],
                 label_visibility="collapsed"
             )
 
@@ -882,55 +1146,105 @@ def main():
 
         st.markdown("""
         <div class="glass-card" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
-            <h3 style="color: white; margin-top: 0; font-size: 1rem;">⚡ Quick Stats</h3>
+            <h3 style="color: white; margin-top: 0; font-size: 1rem;">Links</h3>
             <p style="color: rgba(255,255,255,0.9); font-size: 0.9rem; margin: 0.5rem 0;">
-            • 532+ Cryptocurrencies<br/>
-            • 5 Intelligent Clusters<br/>
-            • 0.64 Quality Score<br/>
-            • 35s Response Time
+            <a href="https://github.com/rahul99gangu/Cryptocurrencies" style="color: white;" target="_blank">GitHub</a><br/>
+            <a href="https://github.com/rahul99gangu/Cryptocurrencies/blob/main/README_ENHANCED.md" style="color: white;" target="_blank">Docs</a><br/>
+            <a href="https://github.com/rahul99gangu/Cryptocurrencies/blob/main/PORTFOLIO_SHOWCASE.md" style="color: white;" target="_blank">Portfolio</a>
             </p>
         </div>
         """, unsafe_allow_html=True)
 
-        st.markdown("<br>", unsafe_allow_html=True)
-
-        st.markdown("""
-        <div style="text-align: center; color: white;">
-            <p style="font-size: 0.9rem; margin: 0.5rem 0;">
-            <strong>🔗 Resources</strong><br/>
-            <a href="https://github.com/rahul99gangu/Cryptocurrencies" style="color: white;" target="_blank">GitHub Repo</a><br/>
-            <a href="https://github.com/rahul99gangu/Cryptocurrencies/blob/main/README_ENHANCED.md" style="color: white;" target="_blank">Documentation</a><br/>
-            <a href="https://github.com/rahul99gangu/Cryptocurrencies/blob/main/PORTFOLIO_SHOWCASE.md" style="color: white;" target="_blank">Portfolio Guide</a>
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
-
-    # Load data
+    # Load data with loading indicator
     try:
-        data = load_sample_data()
-        analyzer = CryptoAIAnalyzer(data)
+        with st.spinner("Loading market data..."):
+            data = load_sample_data()
+            analyzer = CryptoAIAnalyzer(data)
     except Exception as e:
         st.error(f"Error loading data: {e}")
+        st.info("Please ensure all required files are present.")
+        st.stop()
         return
 
+    # Display compact header
+    display_compact_header(data)
+
     # Page routing
-    if page == "🏠 Overview":
+    if page == "Overview":
         display_modern_overview(data, analyzer)
-
-    elif page == "📊 Executive Dashboard":
+    elif page == "Executive Dashboard":
         display_modern_executive_dashboard()
+    elif page == "Cluster Explorer":
+        display_cluster_explorer(data, analyzer)
+    elif page == "Visualizations":
+        display_visualizations(data)
+    elif page == "Market Analysis":
+        display_market_analysis(data, analyzer)
+    elif page == "Generate Report":
+        display_generate_report(analyzer)
+    elif page == "About":
+        st.markdown('<h1 class="hero-header">About This Platform</h1>', unsafe_allow_html=True)
+        st.markdown("""
+        This platform was built by a Senior AI Product Manager with 20 years of experience
+        in building and scaling data-driven products.
 
-    # ... (implement other pages with modern styling)
-    # For brevity, showing key pages. Full implementation would include all pages.
+        ### What Makes This Different
+
+        Most crypto analytics tools overwhelm you with data. This platform uses machine learning
+        to find patterns and Gen AI to explain them in plain English. No PhD required.
+
+        ### Technical Approach
+
+        We use K-means clustering with PCA to group 500+ cryptocurrencies by their fundamental
+        characteristics. Then AI generates insights that actually matter for investment decisions.
+
+        ### Who Is This For
+
+        - Retail investors who want smarter analysis
+        - Portfolio managers looking for efficiency
+        - Researchers studying market patterns
+        - Anyone tired of information overload
+        """)
+    elif page == "Documentation":
+        st.markdown('<h1 class="hero-header">Documentation</h1>', unsafe_allow_html=True)
+        st.markdown("""
+        ### Quick Links
+
+        - [Complete Technical Documentation](https://github.com/rahul99gangu/Cryptocurrencies/blob/main/README_ENHANCED.md)
+        - [Portfolio Showcase Guide](https://github.com/rahul99gangu/Cryptocurrencies/blob/main/PORTFOLIO_SHOWCASE.md)
+        - [AI PM Methodology](https://github.com/rahul99gangu/Cryptocurrencies/blob/main/AI_PM_APPROACH.md)
+        - [GitHub Repository](https://github.com/rahul99gangu/Cryptocurrencies)
+
+        ### How to Use
+
+        1. **Overview**: See market trends and cluster distribution
+        2. **Cluster Explorer**: Deep dive into specific cryptocurrency groups
+        3. **Visualizations**: Interactive 3D plots and charts
+        4. **Market Analysis**: Distribution and risk metrics
+        5. **Generate Report**: Export comprehensive analysis
+        """)
+    elif page == "Contact":
+        st.markdown('<h1 class="hero-header">Contact</h1>', unsafe_allow_html=True)
+        st.markdown("""
+        ### Get In Touch
+
+        For questions, feedback, or collaboration:
+
+        - **GitHub**: [rahul99gangu/Cryptocurrencies](https://github.com/rahul99gangu/Cryptocurrencies)
+        - **Issues**: [Report a bug](https://github.com/rahul99gangu/Cryptocurrencies/issues)
+
+        ### Built With
+
+        Python • Streamlit • Scikit-learn • Plotly • Gen AI
+        """)
 
     # Footer
-    st.markdown("<br><br>", unsafe_allow_html=True)
+    st.markdown("<br><br>", unsafe_html=True)
     st.markdown("""
     <div class="modern-footer">
-        <p style="margin: 0; font-size: 1.1rem;"><strong>🚀 Cryptocurrency Intelligence Platform v4.0</strong></p>
-        <p style="margin: 0.5rem 0; color: #999;">Modern Design Edition</p>
-        <p style="margin: 0;">Built with ❤️ using Streamlit, ML, and Gen AI</p>
-        <p style="margin: 0.5rem 0;">
+        <p style="margin: 0; font-size: 1rem;"><strong>Crypto Intelligence Platform v4.0</strong></p>
+        <p style="margin: 0.5rem 0; color: #999;">Professional Analytics by Rahul Gangu</p>
+        <p style="margin: 0;">
             <a href="https://github.com/rahul99gangu/Cryptocurrencies" style="color: #667eea; text-decoration: none; font-weight: 600;">View on GitHub →</a>
         </p>
     </div>

@@ -34,8 +34,8 @@ except ImportError:
 
 # Page configuration
 st.set_page_config(
-    page_title="Crypto Intelligence",
-    page_icon="💎",
+    page_title="Crypto Intelligence Platform",
+    page_icon="📊",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -211,18 +211,46 @@ st.markdown("""
         margin-top: 0.5rem;
     }
 
-    /* Sidebar modern styling */
+    /* Clean minimal sidebar */
     .css-1d391kg, [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #667eea 0%, #764ba2 100%);
+        background: #ffffff;
+        border-right: 1px solid #e0e0e0;
     }
 
     [data-testid="stSidebar"] [data-testid="stMarkdownContainer"] {
-        color: white;
+        color: #333333;
     }
 
     [data-testid="stSidebar"] .stRadio > label {
+        color: #333333;
+        font-weight: 600;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-bottom: 0.5rem;
+    }
+
+    [data-testid="stSidebar"] .stRadio > div {
+        gap: 0.25rem;
+    }
+
+    [data-testid="stSidebar"] .stRadio label[data-baseweb="radio"] {
+        background: transparent;
+        padding: 0.5rem 1rem;
+        border-radius: 6px;
+        transition: all 0.2s ease;
+        font-weight: 400;
+        font-size: 0.9rem;
+    }
+
+    [data-testid="stSidebar"] .stRadio label[data-baseweb="radio"]:hover {
+        background: #f5f5f5;
+    }
+
+    [data-testid="stSidebar"] .stRadio input:checked + div {
+        background: #667eea;
         color: white;
-        font-weight: 500;
+        border-radius: 6px;
     }
 
     /* Modern buttons */
@@ -574,7 +602,7 @@ def display_compact_header(data):
     st.markdown(f"""
     <div class="compact-header">
         <div>
-            <h1 class="brand-title">💎 Crypto Intel</h1>
+            <h1 class="brand-title">Crypto Intel</h1>
         </div>
         <div class="quick-stats">
             <div class="stat-item">
@@ -1107,9 +1135,9 @@ def main():
     # Sidebar
     with st.sidebar:
         st.markdown("""
-        <div style="text-align: center; padding: 1rem;">
-            <h1 style="color: white; margin: 0; font-size: 1.8rem;">💎 Crypto Intel</h1>
-            <p style="color: rgba(255,255,255,0.8); margin: 0.5rem 0; font-size: 0.9rem;">Professional Analytics</p>
+        <div style="padding: 1.5rem 1rem 1rem 1rem; border-bottom: 1px solid #e0e0e0;">
+            <h1 style="color: #333; margin: 0; font-size: 1.4rem; font-weight: 700;">Crypto Intel</h1>
+            <p style="color: #666; margin: 0.5rem 0 0 0; font-size: 0.85rem;">Professional Analytics Platform</p>
         </div>
         """, unsafe_allow_html=True)
 
@@ -1145,13 +1173,13 @@ def main():
         st.markdown("<br><br>", unsafe_allow_html=True)
 
         st.markdown("""
-        <div class="glass-card" style="background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);">
-            <h3 style="color: white; margin-top: 0; font-size: 1rem;">Links</h3>
-            <p style="color: rgba(255,255,255,0.9); font-size: 0.9rem; margin: 0.5rem 0;">
-            <a href="https://github.com/rahul99gangu/Cryptocurrencies" style="color: white;" target="_blank">GitHub</a><br/>
-            <a href="https://github.com/rahul99gangu/Cryptocurrencies/blob/main/README_ENHANCED.md" style="color: white;" target="_blank">Docs</a><br/>
-            <a href="https://github.com/rahul99gangu/Cryptocurrencies/blob/main/PORTFOLIO_SHOWCASE.md" style="color: white;" target="_blank">Portfolio</a>
-            </p>
+        <div style="padding: 1rem; border-top: 1px solid #e0e0e0; margin-top: auto;">
+            <h3 style="color: #333; margin: 0 0 0.75rem 0; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Resources</h3>
+            <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+                <a href="https://github.com/rahul99gangu/Cryptocurrencies" style="color: #667eea; text-decoration: none; font-size: 0.9rem;" target="_blank">→ GitHub Repository</a>
+                <a href="https://github.com/rahul99gangu/Cryptocurrencies/blob/main/README_ENHANCED.md" style="color: #667eea; text-decoration: none; font-size: 0.9rem;" target="_blank">→ Documentation</a>
+                <a href="https://github.com/rahul99gangu/Cryptocurrencies/blob/main/PORTFOLIO_SHOWCASE.md" style="color: #667eea; text-decoration: none; font-size: 0.9rem;" target="_blank">→ Portfolio Guide</a>
+            </div>
         </div>
         """, unsafe_allow_html=True)
 

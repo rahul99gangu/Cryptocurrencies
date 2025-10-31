@@ -221,6 +221,18 @@ st.markdown("""
         color: #333333;
     }
 
+    [data-testid="stSidebar"] h1 {
+        color: #333333 !important;
+        font-size: 1.6rem !important;
+        font-weight: 700 !important;
+        margin: 0 !important;
+    }
+
+    [data-testid="stSidebar"] p {
+        color: #666666 !important;
+        font-size: 0.9rem !important;
+    }
+
     [data-testid="stSidebar"] .stRadio > label {
         color: #333333;
         font-weight: 600;
@@ -1134,14 +1146,13 @@ def main():
 
     # Sidebar
     with st.sidebar:
+        # Clean header
         st.markdown("""
-        <div style="padding: 1.5rem 1rem 1rem 1rem; border-bottom: 1px solid #e0e0e0;">
-            <h1 style="color: #333; margin: 0; font-size: 1.4rem; font-weight: 700;">Crypto Intel</h1>
-            <p style="color: #666; margin: 0.5rem 0 0 0; font-size: 0.85rem;">Professional Analytics Platform</p>
+        <div style="padding: 1.5rem 0 1rem 0; margin-bottom: 1.5rem; border-bottom: 2px solid #e0e0e0;">
+            <h1 style="color: #333; margin: 0 0 0.5rem 0; font-size: 1.6rem; font-weight: 700; line-height: 1.2;">Crypto Intel</h1>
+            <p style="color: #666; margin: 0; font-size: 0.9rem; line-height: 1.4;">Professional Analytics Platform</p>
         </div>
         """, unsafe_allow_html=True)
-
-        st.markdown("<br>", unsafe_allow_html=True)
 
         page_category = st.radio(
             "Navigation",

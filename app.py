@@ -507,14 +507,67 @@ st.markdown("""
 
 
 @st.cache_data(show_spinner=False)
-def load_sample_data():
-    """Load cryptocurrency data - optimized for performance"""
-    if Path('clustered_crypto_data.csv').exists():
-        return pd.read_csv('clustered_crypto_data.csv', index_col=0)
+def load_crypto_data(source='2025'):
+    """Load cryptocurrency data from selected source"""
+    from sklearn.preprocessing import StandardScaler
+    from sklearn.decomposition import PCA
+    from sklearn.cluster import KMeans
 
-    # Sample data with latest 2024-2025 cryptocurrencies
+    try:
+        # Load data based on source
+        if source == '2025':
+            if Path('crypto_data_2025.csv').exists():
+                df = pd.read_csv('crypto_data_2025.csv', index_col=0)
+            else:
+                return load_fallback_data()
+        else:  # 2018 data
+            if Path('crypto_data.csv').exists():
+                df = pd.read_csv('crypto_data.csv', index_col=0)
+                # Filter to tradable coins only
+                df = df[df['IsTrading'] == True]
+                df = df.dropna()
+                df = df[df['TotalCoinsMined'] > 0]
+            else:
+                return load_fallback_data()
+
+        # Remove IsTrading column if present
+        if 'IsTrading' in df.columns:
+            df = df.drop('IsTrading', axis=1)
+
+        # Prepare features for clustering
+        X = df[['TotalCoinsMined', 'TotalCoinSupply']].copy()
+        X_encoded = pd.get_dummies(df[['Algorithm', 'ProofType']])
+        X_combined = pd.concat([X, X_encoded], axis=1)
+
+        # Scale and apply PCA
+        scaler = StandardScaler()
+        X_scaled = scaler.fit_transform(X_combined)
+
+        pca = PCA(n_components=3)
+        pca_result = pca.fit_transform(X_scaled)
+
+        # Apply K-means clustering
+        kmeans = KMeans(n_clusters=4, random_state=42)
+        clusters = kmeans.fit_predict(pca_result)
+
+        # Create final dataframe
+        result_df = df.copy()
+        result_df['PC 1'] = pca_result[:, 0]
+        result_df['PC 2'] = pca_result[:, 1]
+        result_df['PC 3'] = pca_result[:, 2]
+        result_df['Class'] = clusters
+
+        return result_df
+
+    except Exception as e:
+        st.warning(f"Error loading data: {e}. Using fallback data.")
+        return load_fallback_data()
+
+
+def load_fallback_data():
+    """Load fallback sample data if real data unavailable"""
     np.random.seed(42)
-    n_samples = 120
+    n_samples = 100
 
     latest_coins = [
         'Bitcoin', 'Ethereum', 'Solana', 'Cardano', 'Polygon',
@@ -523,18 +576,18 @@ def load_sample_data():
         'Aave', 'Curve', 'Maker', 'Compound', 'Synthetix'
     ]
 
-    coin_names = latest_coins + [f'AltCoin_{i}' for i in range(n_samples - len(latest_coins))]
+    coin_names = latest_coins + [f'Coin_{i}' for i in range(n_samples - len(latest_coins))]
 
     sample_data = pd.DataFrame({
         'CoinName': coin_names,
-        'Algorithm': np.random.choice(['SHA-256', 'Ethash', 'Proof-of-Stake', 'Proof-of-History', 'Scrypt'], n_samples),
+        'Algorithm': np.random.choice(['SHA-256', 'Beacon Chain', 'Proof-of-History', 'Scrypt'], n_samples),
         'ProofType': np.random.choice(['PoW', 'PoS', 'PoH', 'DPoS'], n_samples),
         'TotalCoinsMined': np.random.exponential(1e7, n_samples),
         'TotalCoinSupply': np.random.exponential(1e8, n_samples),
         'PC 1': np.random.randn(n_samples),
         'PC 2': np.random.randn(n_samples),
         'PC 3': np.random.randn(n_samples),
-        'Class': np.random.randint(0, 5, n_samples)
+        'Class': np.random.randint(0, 4, n_samples)
     })
 
     # Set specific clusters for known coins
@@ -1154,6 +1207,23 @@ def main():
         </div>
         """, unsafe_allow_html=True)
 
+        # Data source selector
+        st.markdown("**Data Source**")
+        data_source = st.selectbox(
+            "Select dataset:",
+            options=['2025', '2018'],
+            format_func=lambda x: f"{'2024-2025 Dataset (100 coins)' if x == '2025' else 'Historical 2018 Dataset (532 coins)'}",
+            help="Choose between current 2024-2025 data or historical 2018 data",
+            label_visibility="collapsed"
+        )
+
+        if data_source == '2025':
+            st.caption("📊 Latest cryptocurrencies with modern consensus mechanisms")
+        else:
+            st.caption("📜 Historical data from the 2017-2018 crypto era")
+
+        st.markdown("<br>", unsafe_allow_html=True)
+
         page_category = st.radio(
             "Navigation",
             ["Executive View", "Technical Analysis", "Resources"],
@@ -1177,7 +1247,7 @@ def main():
         else:
             page = st.radio(
                 "",
-                ["About", "Documentation", "Contact"],
+                ["About", "Data Sources", "Documentation", "Contact"],
                 label_visibility="collapsed"
             )
 
@@ -1197,8 +1267,14 @@ def main():
     # Load data with loading indicator
     try:
         with st.spinner("Loading market data..."):
-            data = load_sample_data()
+            data = load_crypto_data(data_source)
             analyzer = CryptoAIAnalyzer(data)
+
+            # Display data source info
+            if data_source == '2025':
+                st.info(f"📊 Using **2024-2025 Dataset**: {len(data)} modern cryptocurrencies with latest consensus mechanisms")
+            else:
+                st.info(f"📜 Using **Historical 2018 Dataset**: {len(data)} cryptocurrencies from the early blockchain era")
     except Exception as e:
         st.error(f"Error loading data: {e}")
         st.info("Please ensure all required files are present.")
@@ -1244,6 +1320,78 @@ def main():
         - Researchers studying market patterns
         - Anyone tired of information overload
         """)
+    elif page == "Data Sources":
+        st.markdown('<h1 class="hero-header">Data Sources</h1>', unsafe_allow_html=True)
+
+        st.markdown("""
+        We provide two comprehensive cryptocurrency datasets spanning from the early blockchain era to current 2024-2025 market trends.
+        """)
+
+        col1, col2 = st.columns(2)
+
+        with col1:
+            st.markdown("""
+            <div class="glass-card">
+                <h3 style="color: #667eea; margin-top: 0;">📜 Historical Dataset (2018)</h3>
+                <p><strong>Size:</strong> 532 tradable cryptocurrencies</p>
+                <p><strong>Time Period:</strong> 2017-2018</p>
+                <p><strong>Key Features:</strong></p>
+                <ul>
+                    <li>Early blockchain algorithms (Scrypt, X11, SHA-256)</li>
+                    <li>Proof-of-Work dominant era</li>
+                    <li>Ethereum pre-Merge (PoW)</li>
+                    <li>Historical mining data</li>
+                </ul>
+                <p><strong>Notable Coins:</strong> Bitcoin, Ethereum (PoW), Litecoin, Dash, Monero</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+        with col2:
+            st.markdown("""
+            <div class="glass-card">
+                <h3 style="color: #764ba2; margin-top: 0;">📊 Modern Dataset (2024-2025)</h3>
+                <p><strong>Size:</strong> 100 current cryptocurrencies</p>
+                <p><strong>Time Period:</strong> October 2024 - Current</p>
+                <p><strong>Key Features:</strong></p>
+                <ul>
+                    <li>Modern consensus (PoS, PoH, L2-PoS)</li>
+                    <li>Layer-2 solutions (Arbitrum, Optimism)</li>
+                    <li>AI-focused tokens (Fetch.ai, Render, Bittensor)</li>
+                    <li>Latest DeFi protocols</li>
+                </ul>
+                <p><strong>Notable Coins:</strong> Bitcoin, Ethereum (PoS), Solana, Arbitrum, Celestia</p>
+            </div>
+            """, unsafe_allow_html=True)
+
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        st.markdown("### Data Comparison")
+
+        comparison_data = {
+            'Feature': ['Total Cryptocurrencies', 'Ethereum Consensus', 'Layer-2 Coverage', 'AI Tokens', 'Meme Coins', 'Dead Projects'],
+            '2018 Dataset': ['532', 'PoW (Ethash)', 'None', 'None', 'Dogecoin era', 'Many included'],
+            '2024-2025 Dataset': ['100', 'PoS (Beacon Chain)', 'ARB, OP, STRK, IMX', 'FET, AGIX, OCEAN, RNDR, TAO', '2024 cycle (PEPE, BONK)', 'Filtered out']
+        }
+
+        comparison_df = pd.DataFrame(comparison_data)
+        st.dataframe(comparison_df, use_container_width=True, hide_index=True)
+
+        st.markdown("<br>", unsafe_allow_html=True)
+
+        st.markdown("### Data Collection Sources")
+        st.markdown("""
+        **2024-2025 Dataset compiled from:**
+        - **CoinGecko API** - Market data and token information (13M+ tokens tracked)
+        - **CoinMarketCap** - Historical and current supply data
+        - **Official Project Documentation** - Consensus mechanisms and technical specs
+        - **Blockchain Explorers** - On-chain supply verification
+
+        **Update Schedule:** Quarterly updates (Jan 31, Apr 30, Jul 31, Oct 31)
+
+        For detailed information about data methodology and sources, see:
+        [📄 DATA_SOURCES.md](https://github.com/rahul99gangu/Cryptocurrencies/blob/main/DATA_SOURCES.md)
+        """)
+
     elif page == "Documentation":
         st.markdown('<h1 class="hero-header">Documentation</h1>', unsafe_allow_html=True)
         st.markdown("""
@@ -1252,6 +1400,7 @@ def main():
         - [Complete Technical Documentation](https://github.com/rahul99gangu/Cryptocurrencies/blob/main/README_ENHANCED.md)
         - [Portfolio Showcase Guide](https://github.com/rahul99gangu/Cryptocurrencies/blob/main/PORTFOLIO_SHOWCASE.md)
         - [AI PM Methodology](https://github.com/rahul99gangu/Cryptocurrencies/blob/main/AI_PM_APPROACH.md)
+        - [Data Sources Documentation](https://github.com/rahul99gangu/Cryptocurrencies/blob/main/DATA_SOURCES.md)
         - [GitHub Repository](https://github.com/rahul99gangu/Cryptocurrencies)
 
         ### How to Use
@@ -1261,6 +1410,7 @@ def main():
         3. **Visualizations**: Interactive 3D plots and charts
         4. **Market Analysis**: Distribution and risk metrics
         5. **Generate Report**: Export comprehensive analysis
+        6. **Data Sources**: Compare historical vs current datasets
         """)
     elif page == "Contact":
         st.markdown('<h1 class="hero-header">Contact</h1>', unsafe_allow_html=True)

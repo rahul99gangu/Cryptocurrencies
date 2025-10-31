@@ -1,0 +1,99 @@
+,CoinName,Algorithm,IsTrading,ProofType,TotalCoinsMined,TotalCoinSupply
+BTC,Bitcoin,SHA-256,True,PoW,19700000,21000000
+ETH,Ethereum,Beacon Chain,True,PoS,120300000,0
+BNB,Binance Coin,BNB Chain,True,PoS,153856150,153856150
+SOL,Solana,Proof-of-History,True,PoH,420000000,570000000
+XRP,Ripple,RPCA,True,RPCA,54000000000,100000000000
+ADA,Cardano,Ouroboros,True,PoS,35500000000,45000000000
+AVAX,Avalanche,Avalanche Consensus,True,PoS,400000000,720000000
+DOT,Polkadot,Nominated PoS,True,NPoS,1350000000,1630000000
+MATIC,Polygon,PoS,True,PoS,9300000000,10000000000
+LINK,Chainlink,Ethereum-based,True,PoS,558000000,1000000000
+UNI,Uniswap,Ethereum-based,True,PoS,1000000000,1000000000
+LTC,Litecoin,Scrypt,True,PoW,73500000,84000000
+ATOM,Cosmos,Tendermint,True,PoS,349000000,0
+XMR,Monero,RandomX,True,PoW,18400000,0
+ETC,Ethereum Classic,Ethash,True,PoW,145000000,210700000
+ARB,Arbitrum,Optimistic Rollup,True,L2-PoS,10000000000,10000000000
+OP,Optimism,Optimistic Rollup,True,L2-PoS,4294967296,4294967296
+FTM,Fantom,Lachesis,True,PoS,3175000000,3175000000
+NEAR,NEAR Protocol,Nightshade,True,PoS,1080000000,1000000000
+ALGO,Algorand,Pure PoS,True,PPoS,8450000000,10000000000
+ICP,Internet Computer,Chain Key,True,PoS,510000000,469213710
+APT,Aptos,AptosBFT,True,PoS,1030000000,1000000000
+SUI,Sui,Narwhal & Tusk,True,PoS,10000000000,10000000000
+FIL,Filecoin,Expected Consensus,True,PoREP,427000000,1970000000
+AAVE,Aave,Ethereum-based,True,PoS,16000000,16000000
+MKR,Maker,Ethereum-based,True,PoS,1000000,1000000
+GRT,The Graph,Ethereum-based,True,PoS,9550000000,10000000000
+SNX,Synthetix,Ethereum-based,True,PoS,314784000,314784000
+CRV,Curve,Ethereum-based,True,PoS,1800000000,3030303031
+COMP,Compound,Ethereum-based,True,PoS,10000000,10000000
+FET,Fetch.ai,CosmWasm,True,PoS,1152997575,1152997575
+AGIX,SingularityNET,Ethereum-based,True,PoS,1000000000,2000000000
+OCEAN,Ocean Protocol,Ethereum-based,True,PoS,1410000000,1410000000
+RNDR,Render,Ethereum-based,True,PoS,530962615,536870912
+AKT,Akash Network,Tendermint,True,PoS,230000000,388539008
+INJ,Injective,Tendermint,True,PoS,100000000,100000000
+STX,Stacks,Proof of Transfer,True,PoX,1390000000,1818000000
+IMX,Immutable X,StarkEx,True,L2-PoS,2000000000,2000000000
+LDO,Lido DAO,Ethereum-based,True,PoS,1000000000,1000000000
+RPL,Rocket Pool,Ethereum-based,True,PoS,19600000,19729726
+MINA,Mina Protocol,Ouroboros Samisika,True,PoS,914489500,960000000
+QNT,Quant,Ethereum-based,True,PoS,14612493,14612493
+VET,VeChain,PoA 2.0,True,PoA,86712634466,86712634466
+HBAR,Hedera,Hashgraph,True,PoS,36750000000,50000000000
+EGLD,MultiversX,Secure PoS,True,SPoS,25470000,31415926
+THETA,Theta Network,Multi-BFT,True,PoS,1000000000,1000000000
+FLR,Flare,Federated Byzantine,True,FBA,100000000000,100000000000
+XTZ,Tezos,Liquid PoS,True,LPoS,960000000,0
+SAND,The Sandbox,Ethereum-based,True,PoS,2000000000,3000000000
+MANA,Decentraland,Ethereum-based,True,PoS,2193179327,2193179327
+AXS,Axie Infinity,Ethereum-based,True,PoS,270000000,270000000
+APE,ApeCoin,Ethereum-based,True,PoS,1000000000,1000000000
+CHZ,Chiliz,Ethereum-based,True,PoS,8888888888,8888888888
+GALA,Gala,Ethereum-based,True,PoS,35240000000,50000000000
+ENJ,Enjin Coin,Ethereum-based,True,PoS,1000000000,1000000000
+FLOW,Flow,Proof of Stake,True,PoS,1400000000,0
+XLM,Stellar,Stellar Consensus,True,SCP,50001806812,50001806812
+TRX,Tron,Delegated PoS,True,DPoS,87000000000,0
+KAVA,Kava,Tendermint,True,PoS,1100000000,1000000000
+ONE,Harmony,Effective PoS,True,EPoS,13100000000,12600128893
+ZIL,Zilliqa,PBFT,True,PoW+PBFT,17600000000,21000000000
+ROSE,Oasis Network,ParaTime,True,PoS,8100000000,10000000000
+CELO,Celo,Proof of Stake,True,PoS,1000000000,1000000000
+KLAY,Klaytn,IBFT,True,PoS,3500000000,10700000000
+JST,JUST,Delegated PoS,True,DPoS,9900000000,9900000000
+BAT,Basic Attention,Ethereum-based,True,PoS,1500000000,1500000000
+ZRX,0x,Ethereum-based,True,PoS,1000000000,1000000000
+1INCH,1inch,Ethereum-based,True,PoS,1500000000,1500000000
+SUSHI,SushiSwap,Ethereum-based,True,PoS,250000000,250000000
+BAL,Balancer,Ethereum-based,True,PoS,96150704,100000000
+YFI,Yearn Finance,Ethereum-based,True,PoS,36666,36666
+PERP,Perpetual Protocol,Ethereum-based,True,PoS,150000000,150000000
+LRC,Loopring,Ethereum-based,True,PoS,1373873919,1373873919
+CVX,Convex Finance,Ethereum-based,True,PoS,100000000,100000000
+DYDX,dYdX,Ethereum-based,True,PoS,1000000000,1000000000
+GMX,GMX,Arbitrum-based,True,PoS,13250000,13250000
+PENDLE,Pendle,Ethereum-based,True,PoS,258446028,258446028
+SSV,SSV Network,Ethereum-based,True,PoS,11000000,11000000
+RDNT,Radiant Capital,Arbitrum-based,True,PoS,1000000000,1000000000
+MAGIC,Magic,Arbitrum-based,True,PoS,347714007,347714007
+TIA,Celestia,Tendermint,True,PoS,1000000000,1000000000
+SEI,Sei,Tendermint,True,PoS,10000000000,10000000000
+PYTH,Pyth Network,Solana-based,True,PoH,10000000000,10000000000
+WLD,Worldcoin,Optimism-based,True,L2-PoS,10000000000,10000000000
+BLUR,Blur,Ethereum-based,True,PoS,3000000000,3000000000
+PEPE,Pepe,Ethereum-based,True,PoS,420690000000000,420690000000000
+BONK,Bonk,Solana-based,True,PoH,100000000000000,100000000000000
+WIF,dogwifhat,Solana-based,True,PoH,998900000,998900000
+ORDI,Ordinals,Bitcoin-based,True,PoW,21000000,21000000
+JTO,Jito,Solana-based,True,PoH,1000000000,1000000000
+JUP,Jupiter,Solana-based,True,PoH,10000000000,10000000000
+STRK,Starknet,StarkEx,True,L2-PoS,10000000000,10000000000
+W,Wormhole,Multi-chain,True,PoS,10000000000,10000000000
+ENA,Ethena,Ethereum-based,True,PoS,15000000000,15000000000
+TAO,Bittensor,Substrate,True,PoW,21000000,21000000
+BEAM,Beam,Mimblewimble,True,PoW,263000000,262800000
+TON,Toncoin,Byzantine Fault Tolerant,True,PoS,5100000000,5000000000
+NOT,Notcoin,TON-based,True,PoS,102719221714,102719221714

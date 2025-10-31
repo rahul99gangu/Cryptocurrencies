@@ -1278,7 +1278,7 @@ def main():
         """)
 
     # Footer
-    st.markdown("<br><br>", unsafe_html=True)
+    st.markdown("<br><br>", unsafe_allow_html=True)
     st.markdown("""
     <div class="modern-footer">
         <p style="margin: 0; font-size: 1rem;"><strong>Crypto Intelligence Platform v4.0</strong></p>
